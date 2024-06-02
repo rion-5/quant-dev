@@ -1,0 +1,26 @@
+{
+    "id": "7A79E45F",
+    "path": "~/workplace/R-project/us_stock_postgresql.R",
+    "project_path": "us_stock_postgresql.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1716894955679.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "106,25",
+        "scrollLine": "82"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1717047221,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1717047221279,
+    "read_only": false,
+    "read_only_alternatives": []
+}
