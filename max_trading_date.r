@@ -1,7 +1,7 @@
 library(DBI)
-library(RPostgreSQL)
+library(RPostgres)
 
-con <-dbConnect(dbDriver("PostgreSQL"), user="quant", password="quant14", dbname="quantdb",port="8080")
+con <-dbConnect(RPostgres::Postgres(), user="quant", password="quant14", dbname="quantdb",port="8080")
 query <- ("SELECT MAX(TRADING_DATE) FROM STOCK;")
 
 df <- dbGetQuery(con, query)
