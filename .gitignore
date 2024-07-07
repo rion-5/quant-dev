@@ -1,0 +1,25 @@
+# R 작업 공간 파일들
+.Rhistory
+.RData
+.Ruserdata
+
+# RStudio 관련 파일들
+.Rproj.user/
+*.Rproj
+
+# 캐시 파일들
+.Rbuildignore
+
+# 패키지 설치 관련 파일들
+renv/library/
+renv/staging/
+
+# 임시 파일들
+*.tmp
+*.log
+*.out
+*.swp
+*.bak
+
+# 데이터 파일들
+data/
