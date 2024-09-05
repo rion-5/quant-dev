@@ -5,7 +5,12 @@ library(xts)
 library(zoo)
 library(TTR)
 library(DBI)
-
+readRenviron(".env")
+db_user <- Sys.getenv("DB_USER")
+db_pass <- Sys.getenv("DB_PASS")
+db_host <- Sys.getenv("DB_HOST")
+db_name <- Sys.getenv("DB_NAME")
+db_port <- Sys.getenv("DB_PORT")
 
 # from to 날짜가 입력되면 날짜 간격을 확장해서 주식데이터를 조회한 후 리턴한다. 
 from_to_stock <- function(from_trade_date, to_trade_date, symbol){
@@ -39,7 +44,8 @@ insert_data <- function(from_date, to_date, symbol){
   
   for( i in (1:nrow(trading_data))){
     tryCatch({
-      con <-dbConnect(RPostgres::Postgres(), dbname="quantdb", host="localhost", port=8080, user="quant",password="quant14")
+      con <-dbConnect(RPostgres::Postgres(),host=db_host, user=db_user, password=db_pass, dbname=db_name,port=db_port)
+
       oneday_data <- trading_data[i,]
       trade_date <- index(oneday_data)
       trade_data <- as.vector(coredata(oneday_data))

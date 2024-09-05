@@ -1,0 +1,55 @@
+.env
+
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+.Rproj.user/**
+
+# RStudio project files
+*.Rproj
+
+# Compiled C++ files
+*.o
+*.so
+*.dll
+
+# Packages
+.Renviron
+.Rprofile
+.Rbuildignore
+
+# Mac specific files
+.DS_Store
+
+# Temporary files
+*.log
+*.out
+*.aux
+*.toc
+*.bbl
+*.blg
+
+# Knitr and RMarkdown files
+*.knit.md
+*.utf8.md
+*.Rmd.tex
+
+# Jupyter Notebook files
+*.nb.html
+*.nb.md
+

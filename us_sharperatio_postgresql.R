@@ -6,10 +6,17 @@ library(stocks)
 library(plyr)
 library(ggplot2)
 
+readRenviron(".env")
+db_user <- Sys.getenv("DB_USER")
+db_pass <- Sys.getenv("DB_PASS")
+db_host <- Sys.getenv("DB_HOST")
+db_name <- Sys.getenv("DB_NAME")
+db_port <- Sys.getenv("DB_PORT")
+
 # DB에서 기간, 거래량, 주가범위 조건에 따른 symbols 가져오기 
 getSymbols_period_volume_price_frequency <- function(start_date,end_date,min_volume,max_volume,min_close, max_close,frequenct){
   tryCatch({    
-    con <-dbConnect(RPostgres::Postgres(), dbname="quantdb", host="localhost", port=8080, user="quant",password="quant14")
+    con <-dbConnect(RPostgres::Postgres(),host=db_host, user=db_user, password=db_pass, dbname=db_name,port=db_port)
     query <- paste0("select symbol from stock 
                      where (trading_date >='",start_date,"' and trading_date <= '",end_date,"')
                      and ( volume >= ",min_volume," and volume <=  ",max_volume,")
@@ -30,7 +37,7 @@ getSymbols_period_volume_price_frequency <- function(start_date,end_date,min_vol
 # 특정 주식의 stock data 가저오기 
 getStock_from_to <-function(symbol,from_trading_date, to_trading_date) {
   tryCatch({    
-    con <-dbConnect(RPostgres::Postgres(), dbname="quantdb", host="localhost", port=8080, user="quant",password="quant14")
+    con <-dbConnect(RPostgres::Postgres(),host=db_host, user=db_user, password=db_pass, dbname=db_name,port=db_port)
     query <- paste0("select trading_date, open, high,low,close,volume, adjusted from stock 
                      where symbol = '",symbol,"'
                      and trading_date >='",from_trading_date,"'
