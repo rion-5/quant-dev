@@ -15,5 +15,5 @@ query <- ("SELECT MAX(TRADING_DATE) FROM STOCK;")
 
 df <- dbGetQuery(con, query)
 print(df)
-
+print("hello")
 dbDisconnect(con)
