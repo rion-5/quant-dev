@@ -12,7 +12,7 @@ con <- dbConnect(RPostgres::Postgres(), host = db_host, user = db_user,
                  password = db_pass, dbname = db_name, port = db_port)
 
 query <- ("SELECT trading_date, count(*) FROM STOCK Group by trading_date 
-          order by trading_date desc limit 30;")
+          order by trading_date desc limit 14;")
 
 df <- dbGetQuery(con, query)
 print(df)
