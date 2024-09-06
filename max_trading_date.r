@@ -17,4 +17,3 @@ df <- dbGetQuery(con, query)
 print(df)
 
 dbDisconnect(con)
-print("test")
