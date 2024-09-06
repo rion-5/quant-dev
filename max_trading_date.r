@@ -17,4 +17,4 @@ df <- dbGetQuery(con, query)
 print(df)
 
 dbDisconnect(con)
-print("아름다운 우리강산")
+print("아름다운 우리강산2")
