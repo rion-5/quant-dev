@@ -1,5 +1,4 @@
 library(quantmod)
-#library(RPostgreSQL)
 library(RPostgres)
 library(DBI)
 library(stocks)
