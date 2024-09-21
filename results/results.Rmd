@@ -1,0 +1,69 @@
+---
+title: "Sortino Ratio Analysis Report"
+author: "rion5"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  word_document: default
+  html_document: default
+header-includes:
+  - \usepackage{fontspec}
+  - \setmainfont{Noto Sans KR}
+---
+
+```{r echo=FALSE}
+source("../scripts/data_loading.R")
+source("../scripts/data_preprocessing.R")
+source("../scripts/analysis.R")
+# 날짜 범위를 계산하여 rangeDate 변수에 저장
+rangeDate <- start_end_date()
+```
+
+## Data Range 데이터 범위
+
+-   **Start Date:** `r rangeDate$start_date`
+-   **End Date:** `r rangeDate$end_date`
+
+## Data Summary
+
+Here is a summary of the stock data used:
+
+```{r}
+stock_df <- stock_100_1000()
+print(head(stock_df))
+```
+
+## Sortino Ratio Results
+
+The results of the Sortino Ratio analysis, sorted by the ratio:
+
+```{r}
+# 데이터 전처리
+#processed_data <- preprocess_data(raw_data)
+symbol_vector <- as.character(stock_df$symbol)
+rawdata_df <- preprocess_data(symbol_vector, rangeDate$start_date, rangeDate$end_date)
+
+# 분석 실행
+#results <- analyze_data(processed_data)
+sortino_df <- calc_sortinos(symbol_vector, rawdata_df)
+
+results <- merge(stock_df, sortino_df, by = "symbol", all.x = TRUE)
+# Sortino Ratio 값이 큰 순으로 정렬
+results <- results[order(-results$sortino_ratio), ]
+print(head(results))
+```
+
+## Visualization
+
+We can include a chart to visualize the Sortino Ratio:
+
+```{r}
+library(ggplot2)
+ggplot(results, aes(x = reorder(symbol, -sortino_ratio), y = sortino_ratio)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Sortino Ratio by Stock Symbol", x = "Stock Symbol", y = "Sortino Ratio") +
+  theme_minimal()
+
+```

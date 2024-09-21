@@ -107,7 +107,7 @@ getsortinoRatio_from_to <- function(symbols,
   sortino_ratio <- c()
   for (j in (1:length(symbols))) {
     temp_df <- getStock_from_to(symbols[j], from_trading_date, to_trading_date)
-    symbol_close <- temp_df[, 5]
+    symbol_close <- temp_df$close
     #print(symbol_close)
     
     sortino_ratio[length(sortino_ratio) + 1] <- sortino(prices = symbol_close)
