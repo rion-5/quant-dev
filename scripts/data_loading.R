@@ -1,6 +1,14 @@
-library(DBI)
-library(RPostgres)
+source("scripts/dbms_dml.R")
 
+# 미국 주식시장 휴일 설정 함수 (from db)
+us_stock_holidays <- function(year) {
+  query <- paste0( "SELECT holiday_date
+            FROM market_holidays
+            WHERE EXTRACT(YEAR FROM holiday_date) = '", year , "' ;")
+  return(request_quantdb(query))
+}
+
+# 최근 거래일자 조회 (from db)
 max_trading_date <- function() {
   query <- "SELECT MAX(TRADING_DATE) FROM STOCK;"
   return (request_quantdb(query))
@@ -15,7 +23,7 @@ start_end_date <- function() {
   return (request_quantdb(query))
 }
 
-# 특정 주식의 stock data 가저오기
+# 특정 주식의 stock data 가저오기 ((from db))
 getStock_from_to <- function(symbol, from_trading_date, to_trading_date) {
   query <- paste0(
     "select trading_date, open, high,low,close,volume, adjusted from stock
@@ -27,7 +35,7 @@ getStock_from_to <- function(symbol, from_trading_date, to_trading_date) {
   return (request_quantdb(query))
 }
 
-# 특정주식 조건에 따라 가져오기
+# 특정주식 조건에 따라 가져오기 (from db)
 # 조건: 최근 15일 거래일간 조정종가(adjusted)가 100~1000달러이면서 거래량이 8000000 이상이 13회 이상인 종목
 
 stock_100_1000 <-function(){
@@ -57,37 +65,29 @@ stock_100_1000 <-function(){
 
 
 
+# from to 날짜 간격을 확장해서 주식데이터를 조회한 후 리턴한다. (from yahoo)
 
-readRenviron("/Users/rion5/Project/R/quant-dev/.env")
+library(quantmod)
 
-db_user <- Sys.getenv("DB_USER")
-db_pass <- Sys.getenv("DB_PASS")
-db_host <- Sys.getenv("DB_HOST")
-db_name <- Sys.getenv("DB_NAME")
-db_port <- Sys.getenv("DB_PORT")
+stockDataRange <- function(symbol,from_trade_date, to_trade_date){
+  from_date <- as.Date(from_trade_date) - 6
+  to_date <- as.Date(to_trade_date) + 1
+  trading_data <- na.omit(quantmod::getSymbols(symbol, src="yahoo", from = from_date, 
+                                     to = to_date, auto.assign=FALSE))  
+  # print(trading_data) 
+  from_to_trade_date <- paste(from_trade_date, to_trade_date, sep="/")
+  return (trading_data[from_to_trade_date])
+}
 
-request_quantdb <- function(query) {
-  tryCatch({
-    # DB 연결 생성
-    con <- dbConnect(
-      RPostgres::Postgres(),
-      host = db_host,
-      user = db_user,
-      password = db_pass,
-      dbname = db_name,
-      port = db_port
-    )
-    # 쿼리 실행 및 데이터 가져오기
-    res <- dbSendQuery(con, query)
-    data <- dbFetch(res)
-    # 연결 정리
-    dbClearResult(res)
-    dbDisconnect(con)
-    return(data)
-  }, error = function(e) {
-    # 에러 발생 시 메시지 출력 및 연결 종료
-    print(paste("Error:", e$message))
-    dbDisconnect(con)
-    return(NULL)
-  })
+
+# NASDAQ, NYSE 의 Ticker 가져오기 (use TTR package )
+
+NASDAQ_NYSE_ticker <- function(){
+  
+  df_symbols <- TTR::stockSymbols() 
+  NASDAQ_symbols <- df_symbols$Symbol[df_symbols$Exchange == "NASDAQ"]
+  NYSE_symbols <- df_symbols$Symbol[df_symbols$Exchange == "NYSE"]
+  symbols <- append(NASDAQ_symbols, NYSE_symbols)
+  
+  return(symbols)
 }
