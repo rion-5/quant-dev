@@ -12,8 +12,8 @@ is_trading_day <- function(date) {
   return(!(date %in% holidays$holiday_date))
 }
 
-#yesterday <- Sys.Date() - 1
-yesterday <- as.Date('2024-09-23')
+yesterday <- Sys.Date() - 1
+#yesterday <- as.Date('2024-09-23')
 # from_date <- as.Date('2023-12-01')
 # to_date <- as.Date('2023-12-31')
 
@@ -32,9 +32,9 @@ if (is_trading_day(yesterday)) {
     #   Sys.sleep(100) 
     # } 
     tryCatch({
-      # 고정된 위치에서 심볼 업데이트
-      cat(sprintf("\rTicker: %s", sym))
-      flush.console()
+      # # 고정된 위치에서 심볼 업데이트
+      # cat(sprintf("\rTicker: %s", sym))
+      # flush.console()
       
       # Progress bar 업데이트
       setTxtProgressBar(pb, index_number)
