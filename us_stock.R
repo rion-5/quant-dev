@@ -12,8 +12,10 @@ is_trading_day <- function(date) {
   return(!(date %in% holidays$holiday_date))
 }
 
-# yesterday <- Sys.Date() - 1
-yesterday <- as.Date('2023-12-01')
+#yesterday <- Sys.Date() - 1
+yesterday <- as.Date('2024-09-23')
+# from_date <- as.Date('2023-12-01')
+# to_date <- as.Date('2023-12-31')
 
 if (is_trading_day(yesterday)) {
   
@@ -39,11 +41,11 @@ if (is_trading_day(yesterday)) {
 
       trading_data <- stockDataRange(sym, yesterday, yesterday)
       # print(trading_data)
-      # insert_stock_data(sym,trading_data)
-      insert_chunk_stock_data(sym,trading_data)
+      insert_stock_data(sym,trading_data)
+      # insert_chunk_stock_data(sym,trading_data)
       # print(index_number)
     }, error = function(e){
-      # print(paste('Error0: Data Not Found.',e,sym))
+      print(paste('Error0: Data Not Found.',e,sym))
     }) 
     
 

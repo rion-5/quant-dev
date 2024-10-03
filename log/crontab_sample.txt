@@ -1,0 +1,4 @@
+rion5@MyPro quant-dev % crontab -l
+52 16 * * * cd /Users/rion5/Project/R/quant-dev && /opt/homebrew/bin/Rscript us_stock.R >> /Users/rion5/Project/R/quant-dev/log/cron_log_$(date +\%Y-\%m-\%d).log 2>&1
+
+* * * * * echo "Crontab Test $(date)" >> /Users/rion5/Desktop/crontab_test.log
