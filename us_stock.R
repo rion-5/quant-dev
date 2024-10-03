@@ -22,22 +22,23 @@ if (is_trading_day(yesterday)) {
   start_time <-Sys.time() 
   
   symbols <- NASDAQ_NYSE_ticker()
-  total_steps <- length(symbols)
-  # Progress bar 생성
-  pb <- txtProgressBar(min = 0, max = total_steps, style = 3)
+  # total_steps <- length(symbols)
+  # # Progress bar 생성
+  # pb <- txtProgressBar(min = 0, max = total_steps, style = 3)
   for(sym in symbols){
-    # print(sym)
+    
     index_number <-match(sym, symbols)
     # if( index_number%%500 == 0) {
     #   Sys.sleep(100) 
     # } 
     tryCatch({
+      cat(sym, sep = "\n")
       # # 고정된 위치에서 심볼 업데이트
       # cat(sprintf("\rTicker: %s", sym))
       # flush.console()
       
-      # Progress bar 업데이트
-      setTxtProgressBar(pb, index_number)
+      # # Progress bar 업데이트
+      # setTxtProgressBar(pb, index_number)
 
       trading_data <- stockDataRange(sym, yesterday, yesterday)
       # print(trading_data)
@@ -45,7 +46,8 @@ if (is_trading_day(yesterday)) {
       # insert_chunk_stock_data(sym,trading_data)
       # print(index_number)
     }, error = function(e){
-      print(paste('Error0: Data Not Found.',e,sym))
+      cat(paste(sym,'Error0'), sep = "\n")
+      #print(paste('Error0: Data Not Found.',e,sym))
     }) 
     
 
