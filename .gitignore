@@ -43,6 +43,7 @@
 *.toc
 *.bbl
 *.blg
+*.swp
 
 # Knitr and RMarkdown files
 *.knit.md

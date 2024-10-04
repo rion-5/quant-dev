@@ -53,7 +53,7 @@ if (is_trading_day(yesterday)) {
 
   }
   # 완료 후 Progress bar 닫기
-  close(pb)
+  # close(pb)
   print(start_time)
   print(Sys.time())
   
