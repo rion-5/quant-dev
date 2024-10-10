@@ -12,8 +12,8 @@ is_trading_day <- function(date) {
   return(!(date %in% holidays$holiday_date))
 }
 
-yesterday <- Sys.Date() - 1
-#yesterday <- as.Date('2024-09-23')
+#yesterday <- Sys.Date() - 1
+yesterday <- as.Date('2024-10-08')
 # from_date <- as.Date('2023-12-01')
 # to_date <- as.Date('2023-12-31')
 
