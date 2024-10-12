@@ -13,7 +13,7 @@ is_trading_day <- function(date) {
 }
 
 yesterday <- Sys.Date() - 1
-#yesterday <- as.Date('2024-10-08')
+#yesterday <- as.Date('2024-10-10')
 # from_date <- as.Date('2023-12-01')
 # to_date <- as.Date('2023-12-31')
 
