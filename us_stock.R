@@ -1,9 +1,8 @@
 source("scripts/data_loading.R")
 source("scripts/db_insert.R")
 
-
 is_trading_day <- function(date) {
-  weekday <- weekdays(date)
+  weekday <<- weekdays(date)
   if (weekday %in% c("Saturday", "Sunday")) return(FALSE)
   
   year <- as.numeric(format(date, "%Y"))
@@ -12,12 +11,12 @@ is_trading_day <- function(date) {
   return(!(date %in% holidays$holiday_date))
 }
 
-yesterday <- Sys.Date() - 1
-#yesterday <- as.Date('2024-10-08')
+#trading_date <- Sys.Date() - 1
+trading_date <- as.Date('2024-10-10')
 # from_date <- as.Date('2023-12-01')
 # to_date <- as.Date('2023-12-31')
 
-if (is_trading_day(yesterday)) {
+if (is_trading_day(trading_date)) {
   
   start_time <-Sys.time() 
   
@@ -32,7 +31,7 @@ if (is_trading_day(yesterday)) {
     #   Sys.sleep(100) 
     # } 
     tryCatch({
-      cat(sym, sep = "\n")
+      cat(index_number, format(trading_date,'%Y-%m-%d'), weekday,sym, sep =" ", "\n")
       # # 고정된 위치에서 심볼 업데이트
       # cat(sprintf("\rTicker: %s", sym))
       # flush.console()
@@ -40,7 +39,7 @@ if (is_trading_day(yesterday)) {
       # # Progress bar 업데이트
       # setTxtProgressBar(pb, index_number)
 
-      trading_data <- stockDataRange(sym, yesterday, yesterday)
+      trading_data <- stockDataRange(sym, trading_date, trading_date)
       # print(trading_data)
       insert_stock_data(sym,trading_data)
       # insert_chunk_stock_data(sym,trading_data)
