@@ -1,7 +1,7 @@
 library(DBI)
 library(RPostgres)
 
-readRenviron("/Users/rion5/Project/R/quant-dev/.env")
+#readRenviron("/Users/rion5/Project/R/quant-dev/.env")
 
 db_user <- Sys.getenv("DB_USER")
 db_pass <- Sys.getenv("DB_PASS")
