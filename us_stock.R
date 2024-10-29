@@ -3,7 +3,7 @@ source("scripts/db_insert.R")
 
 is_trading_day <- function(date) {
   weekday <<- weekdays(date)
-  if (weekday %in% c("Saturday", "Sunday")) return(FALSE)
+  if (weekday %in% c("Saturday", "Sunday", "토요일", "일요일")) return(FALSE)
   
   year <- as.numeric(format(date, "%Y"))
   holidays <- us_stock_holidays(year)
