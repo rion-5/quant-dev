@@ -262,18 +262,16 @@ draw_line <- function (symbols, startDate, endDate) {
 #소형주
 #draw_line(getSymbols_period_volume_price_frequency('2023-04-24','2023-05-12',2000000,6000000,100,1000,13),'2023-02-01','2023-05-12')
 #대형주
-#draw_line(getSymbols_period_volume_price_frequency('
-2023 - 04 - 24','2023 - 05 - 12',100000,7000000,1000,9000,13),'2023 - 02 -
-  01','2023 - 05 - 12')
+#draw_line(getSymbols_period_volume_price_frequency('2023-04-24','2023-05-12',100000,7000000,1000,9000,13),'2023-02 -01','2023-05-12')
 
 
 #소형주
-# us_sortino_start('2023 - 05 - 25','2023 - 06 - 15',5000000,200000000,100,1000,13)
+# us_sortino_start('2023-05-25','2023-06-15',5000000,200000000,100,1000,13)
 #대형주
 # us_sortino_start('2023 - 05 - 22','2023 - 06 - 12',100000,7000000,1000,9000,13)
 
 #사용례
-# Rscript us_sortino_postgresql.R '2023 - 05 - 26' '2023 - 06 - 16' 5000000 200000000 100 1000 13
+# Rscript us_sortino_postgresql.R '2023-05-26' '2023-06-16' 5000000 200000000 100 1000 13
 args = commandArgs(trailingOnly=TRUE)
 us_sortino_start(args[1],args[2],args
                  [3],args[4],args[5],args[6],args[7])

@@ -54,3 +54,5 @@
 *.nb.html
 *.nb.md
 
+#renv
+renv/library
