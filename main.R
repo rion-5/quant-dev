@@ -44,8 +44,19 @@ cat(glue::glue("조회시작일: {rangeDate$start_date}\n\r"))
 cat(glue::glue("조회종료일: {rangeDate$end_date}\n\r"))
 
 # Sortino Ratio 분석 대상 symbol 데이터 로드
-stock_tb <- stock_100_1000() %>% 
+# stock_tb <- stock_100_1000() %>% 
+#   as_tibble()
+
+#특정기간 지정
+stock_tb <- stock_100_1000_from_to('2024-10-10', '2024-10-31') %>% 
   as_tibble()
+
+
+# #번외 data.frame -> xts
+# library(xts)
+# tesla <- getStock_from_to('TSLA', '2024-09-01','2024-11-11')
+# tesla_xts <- as.xts(tesla[,-1], order.by = tesla$trading_date)
+# chart_Series(Ad(tesla_xts))
 
 # 데이터 전처리
 symbol_vector <- stock_tb$symbol
@@ -63,3 +74,22 @@ results <- stock_tb %>%
 # 결과 확인
 print(results)
 
+# Sortino ratio 가 0.2 이상인 주식만 추출
+Sortino_ratio_greater_than <- results %>%
+  filter(sortino_ratio >= 0.2 )
+#& ((max_a - min_a) / min_a) >= 0.3
+# 결과 확인
+print(Sortino_ratio_greater_than)
+
+# max_min_ratio 컬럼 추가: 최고가와 최저가를 이용한 상승 비율 계산
+Sortino_ratio_greater_than <- Sortino_ratio_greater_than %>%
+  dplyr::mutate(max_min_ratio = (max_a / min_a - 1))
+
+print(Sortino_ratio_greater_than)
+
+# 최저가와 최고가 차이가 30% 이상인 주식만 추출
+stock_price_increase_20 <- Sortino_ratio_greater_than %>%
+  filter(max_min_ratio >=0.3) %>%
+  arrange(desc(max_min_ratio))
+
+print(stock_price_increase_20)

@@ -47,25 +47,41 @@ stock_100_1000 <-function(){
                 ORDER BY trading_date DESC LIMIT 15)
         )
         select symbol, count(*),
-        		round(min(adjusted)::numeric,2) as min_adjusted,
-        		round(avg(adjusted)::numeric,2) as avg_adjusted,
-        		round(max(adjusted)::numeric,2) as max_adjusted,
-        		round(min(volume)::numeric,0) as min_volume,
-        		round(max(volume)::numeric,0) as max_volume
+        		round(min(adjusted)::numeric,2) as min_a,
+        		round(avg(adjusted)::numeric,2) as avg_a,
+        		round(max(adjusted)::numeric,2) as max_a,
+        		round(min(volume)::numeric,0) as min_v,
+        		round(max(volume)::numeric,0) as max_v
         FROM stock
         WHERE trading_date BETWEEN (SELECT start_date FROM DateRange)
                               AND (SELECT end_date FROM DateRange)
         and adjusted between 100 and 1000
-        and volume >= 8000000
+        -- and volume >= 8000000
         group by symbol
         having count(*) >= 13
-        order by min_volume desc; "
+        order by min_v desc; "
   return (request_quantdb(query))
 }
 
+stock_100_1000_from_to <-function(from_date, to_date){
+  query <- paste0( "select symbol, count(*),
+        		round(min(adjusted)::numeric,2) as min_a,
+        		round(avg(adjusted)::numeric,2) as avg_a,
+        		round(max(adjusted)::numeric,2) as max_a,
+        		round(min(volume)::numeric,0) as min_v,
+        		round(max(volume)::numeric,0) as max_v
+        FROM stock
+        WHERE trading_date BETWEEN '", from_date , "'
+                              AND '", to_date , "'
+        and adjusted between 100 and 1000
+        -- and volume >= 8000000
+        group by symbol
+        having count(*) >= 13
+        order by min_v desc; " )
+  return (request_quantdb(query))
+}
 
-
-# from to 날짜 간격을 확장해서 주식데이터를 조회한 후 리턴한다. (from yahoo)
+# from to 날짜 간격을 확장해서 주식데이터를 조회한 후 리턴한다. (from online)
 
 library(quantmod)
 

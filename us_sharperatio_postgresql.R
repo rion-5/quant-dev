@@ -14,13 +14,13 @@ db_name <- Sys.getenv("DB_NAME")
 db_port <- Sys.getenv("DB_PORT")
 
 # DB에서 기간, 거래량, 주가범위 조건에 따른 symbols 가져오기
-getSymbols_period_volume_price_frequency <- function(start_date, end_date, min_volume, max_volume, min_close, max_close, frequenct) {
+getSymbols_period_volume_price_frequency <- function(start_date, end_date, min_v, max_v, min_close, max_close, frequenct) {
   tryCatch(
     {
       con <- dbConnect(RPostgres::Postgres(), host = db_host, user = db_user, password = db_pass, dbname = db_name, port = db_port)
       query <- paste0("select symbol from stock
                      where (trading_date >='", start_date, "' and trading_date <= '", end_date, "')
-                     and ( volume >= ", min_volume, " and volume <=  ", max_volume, ")
+                     and ( volume >= ", min_v, " and volume <=  ", max_v, ")
                      and (close >=", min_close, " and close <=", max_close, ")
                      group by symbol
                      having  count(symbol) >= ", frequenct, " ;")
@@ -75,8 +75,8 @@ getSharpeRatio_from_to <- function(symbols, from_trading_date, to_trading_date) 
 
 
 # 조건에 맞는 주식을 찾아 sharpe ratio를 추출해서 보여줌
-us_sharpe_start <- function(start_date, end_date, min_volume, max_volume, min_close, max_close, frequenct) {
-  symbols <- getSymbols_period_volume_price_frequency(start_date, end_date, min_volume, max_volume, min_close, max_close, frequenct)
+us_sharpe_start <- function(start_date, end_date, min_v, max_v, min_close, max_close, frequenct) {
+  symbols <- getSymbols_period_volume_price_frequency(start_date, end_date, min_v, max_v, min_close, max_close, frequenct)
   mydf <<- data.frame()
   sharpe_ratio <- getSharpeRatio_from_to(symbols, start_date, end_date)
   df <- cbind.data.frame(symbols, sharpe_ratio, stringsAsFactors = F)
@@ -95,8 +95,8 @@ us_sharpe_start <- function(start_date, end_date, min_volume, max_volume, min_cl
 
 
 # us_sharpe_start와 동일한데 차트로 보여줌
-draw_recent_sharpe <- function(start_date, end_date, min_volume, max_volume, min_close, max_close, frequenct) {
-  symbols <- getSymbols_period_volume_price_frequency(start_date, end_date, min_volume, max_volume, min_close, max_close, frequenct)
+draw_recent_sharpe <- function(start_date, end_date, min_v, max_v, min_close, max_close, frequenct) {
+  symbols <- getSymbols_period_volume_price_frequency(start_date, end_date, min_v, max_v, min_close, max_close, frequenct)
   symbol_sharpe_df <<- data.frame()
   sharpe_ratio <- getSharpeRatio_from_to(symbols, start_date, end_date)
 

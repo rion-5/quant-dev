@@ -381,7 +381,7 @@ display: none;
 <p>Here is a summary of the stock data used:</p>
 <pre class="r"><code>stock_df &lt;- stock_100_1000()
 print(head(stock_df))</code></pre>
-<pre><code>##   symbol count min_adjusted avg_adjusted max_adjusted min_volume max_volume
+<pre><code>##   symbol count min_a avg_a max_a min_v max_v
 ## 1   NVDA    15       102.82       112.96       119.36  231925900  477155100
 ## 2   TSLA    15       206.28       223.18       243.92   54323000  119355000
 ## 3   AAPL    15       216.32       222.48       229.79   36615400   67180000
@@ -405,7 +405,7 @@ results &lt;- merge(stock_df, sortino_df, by = &quot;symbol&quot;, all.x = TRUE)
 # Sortino Ratio 값이 큰 순으로 정렬
 results &lt;- results[order(-results$sortino_ratio), ]
 print(head(results))</code></pre>
-<pre><code>##    symbol count min_adjusted avg_adjusted max_adjusted min_volume max_volume
+<pre><code>##    symbol count min_a avg_a max_a min_v max_v
 ## 8    META    15       500.27       521.30       559.10    8317400   15622600
 ## 9    MSFT    15       401.70       419.68       438.69   13834700   24308300
 ## 11    QQQ    13       448.69       466.46       483.36   22585600   57843000
