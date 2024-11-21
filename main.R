@@ -44,12 +44,12 @@ cat(glue::glue("조회시작일: {rangeDate$start_date}\n\r"))
 cat(glue::glue("조회종료일: {rangeDate$end_date}\n\r"))
 
 # Sortino Ratio 분석 대상 symbol 데이터 로드
-# stock_tb <- stock_100_1000() %>% 
-#   as_tibble()
-
-#특정기간 지정
-stock_tb <- stock_100_1000_from_to('2024-10-10', '2024-10-31') %>% 
+stock_tb <- stock_100_1000() %>%
   as_tibble()
+
+# #특정기간 지정
+# stock_tb <- stock_100_1000_from_to('2024-07-10', '2024-07-31') %>%
+#   as_tibble()
 
 
 # #번외 data.frame -> xts
@@ -62,6 +62,8 @@ stock_tb <- stock_100_1000_from_to('2024-10-10', '2024-10-31') %>%
 symbol_vector <- stock_tb$symbol
 
 rawdata_tb <- preprocess_data(symbol_vector, rangeDate$start_date, rangeDate$end_date)
+
+# rawdata_tb <- preprocess_data(symbol_vector, '2024-07-11', '2024-07-31')
 
 # Sortino Ratio 계산
 sortino_tb <- calc_sortinos(symbol_vector, rawdata_tb)
@@ -91,5 +93,12 @@ print(Sortino_ratio_greater_than)
 stock_price_increase_20 <- Sortino_ratio_greater_than %>%
   filter(max_min_ratio >=0.3) %>%
   arrange(desc(max_min_ratio))
+
+print(stock_price_increase_20)
+
+# 소르티노비율과 주가 상승율을 동일비율로 합산
+stock_price_increase_20 <- stock_price_increase_20 %>%
+  dplyr::mutate(total = sortino_ratio + max_min_ratio) %>%
+  arrange(desc(total))
 
 print(stock_price_increase_20)
