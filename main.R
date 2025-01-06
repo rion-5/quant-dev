@@ -91,7 +91,7 @@ print(Sortino_ratio_greater_than)
 
 # 최저가와 최고가 차이가 30% 이상인 주식만 추출
 stock_price_increase_20 <- Sortino_ratio_greater_than %>%
-  filter(max_min_ratio >=0.3) %>%
+  filter(max_min_ratio >=0.2) %>%
   arrange(desc(max_min_ratio))
 
 print(stock_price_increase_20)
